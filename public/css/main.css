@@ -1,0 +1,425 @@
+@import url(./fonts.css);
+
+
+/* CUSTOM PROPS */
+
+:root {
+    --fm: "Roboto";
+    --white: #fff;
+    --blue: #3B81F4;
+    --gray: #2F3641;
+}
+
+/* GLOBAL STYLES */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+body {
+    font-family: var(--fm);
+    height: 100%;
+}
+
+/* FOR-POSITION */
+.for-position {
+    height: 50px;
+}
+/* FOR-POSITION */
+/* SITE-HEADER */
+.nav-link__item {
+    color: #2F3641 !important;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: .5px;
+    line-height: 27px;
+}
+.navbar-brend {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gray);
+}
+
+/* AVATARKA */
+.nav-ava {
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+
+}
+.nav-key {
+    margin-bottom: 0;
+}
+.key-num {
+    color: var(--gray);
+}
+.nav-ava__content {
+    display: flex;
+    align-items: center;
+    column-gap: 6px;
+    border: 0;
+    background-color: var(--white);
+}
+.user-name {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+.user-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.dropdown-menu {
+    min-width: unset !important;
+    /* max-width: 120px; */
+    width: 100%;
+}
+/* AVATARKA */
+/* SITE-HEADER */
+
+/* SITE-HERO */
+.site-hero {
+    background-color: #1D4ED6;
+}
+.site-hero__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+}
+.site-hero__title {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: 0.2px;
+    line-height: 56px; 
+    color: var(--white);
+}
+.site-hero__desc {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    color: var(--white);
+}
+
+/* SITE-HERO */
+
+/* BURGER */
+.navbar-toggler {
+    border: 2px solid #2F3641;
+}
+.navbar-toggler:focus {
+    box-shadow: unset;
+}
+/* BURGER */
+
+/* REGSITER MODAL */
+.input-pasword {
+    position: relative;
+}
+.password-container {
+    position: absolute;
+    display: inline-block;
+}
+
+.password-input {
+    padding-right: 30px; /* Ko'z ikonkasi uchun joy ajratish */
+}
+
+.toggle-password {
+    position: absolute;
+    top: 72%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.form-label {
+    font-size: 14px !important;
+    color: var(--gray);
+}
+.form-control::placeholder {
+    font-size: 14px !important;
+    color: var(--gray);
+}
+/* REGISTER MODAL */
+
+/* SITE-MAIN */
+
+
+.card {
+    overflow: hidden;
+    border-left: 7px solid #C5C5C5;
+
+}
+.card-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.1px;
+}
+.card-text {
+    font-size: 14px;
+    font-weight: 700;
+    color: #5C5C5C;
+    margin-bottom: 0 !important;
+    
+}
+.test-image {
+    max-width: 100px;
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+}
+.science-headline {
+    color: var(--gray);
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.test-more {
+    font-size: 12px !important;
+    color: #1D4ED6;
+    font-weight: 900;
+}
+
+
+/* FAQ SECTION */
+.faq-headline {
+    color: var(--gray);
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.accordion-button {
+    font-size: 16px !important;
+    font-weight: 700;
+}
+.accordion-body {
+    font-size: 14px;
+}
+
+.bg-change {
+    background-color: #F7F7F8;
+}
+/* FAQ SECTION */
+/* SITE-MAIN */
+
+
+/* CONTACT PAGE */
+.contact {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #F7F7F8;
+}
+.contact-item {
+    background-color: var(--white);
+    padding: 24px;
+}
+.contact-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #000;
+    margin-top: 24px;
+    margin-bottom: 8px;
+
+}
+.contact-link {
+    color: #1D4ED6;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: underline;
+}
+
+.contact-form {
+    background-color: var(--white);
+}
+/* CONTACT PAGE */
+
+
+/* CATEGORY DETAIL */
+.category-detail {
+    background-color: #F7F7F8;
+}
+
+.level {
+    background-color: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    border-left: 5px solid #1D4ED6;
+    padding: 20px;
+    transition: .4s;
+
+}
+.level:hover {
+    cursor: pointer;
+    box-shadow: inset 0 0 20px #1d4ed64d;
+}
+.level-title {
+    color: #000;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.level-text {
+    color: var(--gray);
+    font-size: 14px;
+    font-weight: 700;
+    color: #5C5C5C;
+}
+
+/* CATEGORY DETAIL */
+
+/* ABOUT PAGE */
+.about {
+    background-color: #F7F7F8;
+}
+.about-desc {
+    font-size: 15px;
+    color: #1A1C2C;
+    font-weight: 400;
+    line-height: 30px;
+}
+/* ABOUT PAGE */
+
+/* QUESTION PAGE */
+.question {
+    background-color: #F7F7F8;
+}
+.question-test {
+    font-size: 18px;
+    font-weight: 700;
+}
+.question-content {
+    background-color: var(--white);
+    overflow: hidden;
+    padding: 20px;
+   
+}
+
+.question-form {
+    display: flex;
+    row-gap: 10px;
+    column-gap: 10px;
+}
+.form-check {
+    display: flex;
+    column-gap: 10px;
+    padding-left: 0;
+}
+.form-check-label {
+    font-size: 14px;
+}
+.key-icon {
+   margin-left: 10px;
+   color: #1D4ED6;
+}
+.clock-icon {
+    color: #1D4ED6;
+}
+.modal-footer {
+    justify-content: center !important;
+}
+.question-photo {
+    width: 100%;
+}
+.question-help {
+    font-size: 14px;
+    font-weight: 400;
+    color: #1A1C2C;
+}
+.question-item {
+    display: flex;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.question-item li{
+    list-style: none;
+}
+.question-item li:hover{
+    color: red;
+    cursor: pointer;
+}
+.question-word {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1D4ED6;
+}
+.form-check {
+    display: flex;
+    column-gap: 10px;
+    padding-left: 0;
+}
+.input-word {
+    width: 40px !important;
+    height: 40px !important;
+    background-color: #C5C5C5;
+    text-transform: uppercase;
+}
+.input-word:focus {
+    box-shadow: unset;
+}
+/* QUESTION PAGE */
+
+
+/* SITE-FOOTER */
+.site-footer {
+    background-color: #1D4ED6;
+    color: var(--white);
+}
+.footer-mail {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+}
+.footer-mail__link {
+    color: var(--white);
+    font-size: 15px;
+    letter-spacing: .5px;
+    font-weight: 400;
+}
+
+.footer-phone__link {
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 400;
+}
+.footer-phone {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.social {
+    margin-bottom: 0 !important;
+    padding-left: 0 !important;
+    column-gap: 20px;
+}
+
+.social-link {
+    display: inline-block;
+    color: var(--white);
+}
+.company-sayt {
+    color: transparent;
+    background: linear-gradient(93deg, #615DFF -2.3%, #F11 38.2%);
+    margin-right: 10px;
+    text-decoration: underline;
+    -webkit-background-clip: text;
+}
+/* SITE-FOOTER */
+
