@@ -11,9 +11,6 @@ export default function Question() {
         <div class="container">
             <div class="row justify-content-sm-start justify-content-lg-center ">
                 <div class="col-12 col-md-12 col-lg-10 mb-3">
-                    {/* {
-                        action ? <TestQuestion setAction={setAction}/> : <ImgQuestion setAction={setAction}/>
-                    } */}
                     <Outlet />
                 </div>
                 <div class="col-6  col-md-4 col-lg-2 mb-3 ">

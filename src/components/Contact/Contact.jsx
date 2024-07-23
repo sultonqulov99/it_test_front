@@ -1,13 +1,14 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { AppLayoutContext } from '../../Layouts/AppLayout'
 
 export default function Contact() {
   const [fullName, setFullName] = useState("")
   const [contact, setContact] = useState("")
   const [text, setText] = useState("")
-  const API = "http://localhost:8080";
+  const { API } = useContext(AppLayoutContext);
   const data = JSON.parse(window.localStorage.getItem("data"));
-  const u_id = data._id;
+  const u_id =data && data._id;
 
   function clickContact(e){
     e.preventDefault()

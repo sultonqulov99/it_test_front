@@ -4,19 +4,22 @@ import { useNavigate } from "react-router-dom";
 import { AppLayoutContext } from "../../Layouts/AppLayout";
 
 const RegisterModal = () => {
-  let API = "http://localhost:8080";
+  const { API } = useContext(AppLayoutContext);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [region, setRegion] = useState("")
   const [degree, setDegree] = useState("");
   const [status, setStatus] = useState([]);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isError, setIsError] = useState(false);
-  const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const navigate = useNavigate();
 
-  const { setIsLogined } = useContext(AppLayoutContext)
+  const { setIsLogined } = useContext(AppLayoutContext);
 
   const modalRef = useRef(null); // Reference to the modal
 
@@ -30,35 +33,43 @@ const RegisterModal = () => {
         console.log(error);
       });
   }, []);
+
   useEffect(() => {
     const modalElement = modalRef.current;
     const handleBackdropRemoval = () => {
-      const modalBackdrop = document.querySelector('.modal-backdrop');
+      const modalBackdrop = document.querySelector(".modal-backdrop");
       if (modalBackdrop) {
         modalBackdrop.parentNode.removeChild(modalBackdrop);
       }
+      document.body.classList.remove("modal-open");
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     };
 
     if (modalElement) {
-      modalElement.addEventListener('hidden.bs.modal', handleBackdropRemoval);
+      modalElement.addEventListener("hidden.bs.modal", handleBackdropRemoval);
     }
 
     return () => {
       if (modalElement) {
-        modalElement.removeEventListener('hidden.bs.modal', handleBackdropRemoval);
+        modalElement.removeEventListener(
+          "hidden.bs.modal",
+          handleBackdropRemoval
+        );
       }
     };
   }, []);
 
   const handleRegister = async () => {
     if (password !== passwordConfirm) {
-      alert("Passwords do not match");
+      setIsError("Parolni xato kiritdingiz");
       return;
     }
     axios
       .post(`${API}/api/register`, {
         name: firstName,
         surname: lastName,
+        region : region,
         status_id: degree,
         password: password,
         contact: "+" + phoneNumber,
@@ -67,20 +78,29 @@ const RegisterModal = () => {
         if (res.status === 201) {
           window.localStorage.setItem("data", JSON.stringify(res.data.data));
           window.localStorage.setItem("token", res.data.token);
-          setIsLogined(true)
+          setIsLogined(true);
           // Close the modal
           if (modalRef.current) {
             const modalElement = modalRef.current;
-            const modalInstance = window.bootstrap.Modal.getInstance(modalElement);
+            const modalInstance =
+              window.bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide();
           }
         }
-        navigate("/")
+        navigate("/");
       })
       .catch((error) => {
         setIsError(error.response.data.message);
         console.log(error);
       });
+  };
+
+  const togglePasswordVisibility = (type) => {
+    if (type === "password") {
+      setShowPassword(!showPassword);
+    } else {
+      setShowPasswordConfirm(!showPasswordConfirm);
+    }
   };
 
   return (
@@ -106,6 +126,7 @@ const RegisterModal = () => {
             ></button>
           </div>
           <div className="modal-body">
+            {isError ? <span style={{ color: "red" }}>{isError}</span> : null}
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -136,6 +157,19 @@ const RegisterModal = () => {
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   placeholder="familya..."
+                />
+              </div>
+              <div className="mb-2">
+                <label htmlFor="lastName" className="form-label">
+                  Viloyat
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="lastName"
+                  value={region}
+                  onChange={(e) => setRegion(e.target.value)}
+                  placeholder="viloyat..."
                 />
               </div>
               <div className="mb-2">
@@ -174,39 +208,45 @@ const RegisterModal = () => {
                 <label htmlFor="password" className="form-label">
                   Parol
                 </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="telefon raqam..."
-                />
-                <span
-                  className="toggle-password"
-                  //   onClick={() => togglePasswordVisibility()}
-                >
-                  👁️
-                </span>
+                <div className="input-group">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="form-control"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="parol..."
+                  />
+                  <span
+                    className="input-group-text"
+                    onClick={() => togglePasswordVisibility("password")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {showPassword ? "🙈" : "👁️"}
+                  </span>
+                </div>
               </div>
               <div className="mb-2 input-password">
                 <label htmlFor="passwordConfirm" className="form-label">
                   Parol qayta
                 </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="passwordConfirm"
-                  value={passwordConfirm}
-                  onChange={(e) => setPasswordConfirm(e.target.value)}
-                  placeholder="qayta raqam..."
-                />
-                <span
-                  className="toggle-password"
-                  //   onClick={() => togglePasswordVisibility()}
-                >
-                  👁️
-                </span>
+                <div className="input-group">
+                  <input
+                    type={showPasswordConfirm ? "text" : "password"}
+                    className="form-control"
+                    id="passwordConfirm"
+                    value={passwordConfirm}
+                    onChange={(e) => setPasswordConfirm(e.target.value)}
+                    placeholder="parolni qayta kiriting..."
+                  />
+                  <span
+                    className="input-group-text"
+                    onClick={() => togglePasswordVisibility("passwordConfirm")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {showPasswordConfirm ? "🙈" : "👁️"}
+                  </span>
+                </div>
               </div>
               <div className="modal-footer">
                 <button

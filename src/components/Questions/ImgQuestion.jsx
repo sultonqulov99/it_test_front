@@ -9,7 +9,7 @@ import Modal from "react-bootstrap/Modal";
 
 export default function ImgQuestion() {
   const initialHarflar = ["a", "b", "c", "d", "e", "f", "g", "k", "l", "q"];
-  const API = "http://localhost:8080";
+  const { API } = useContext(AppLayoutContext);
 
   const data = JSON.parse(window.localStorage.getItem("data"));
   const u_id = data._id;
@@ -108,7 +108,7 @@ export default function ImgQuestion() {
                         window.localStorage.setItem("questionLevel", 1);
                         window.localStorage.setItem(
                           "time",
-                          +res1.data.data.attempts * 1 * 100
+                          (+res1.data.data.attempts + 1) * 300
                         );
                       }
                     });
@@ -198,9 +198,9 @@ export default function ImgQuestion() {
         );
         res = await res.json();
         if (res.status === 200) {
-          navigate("/category-detail");
+          window.localStorage.removeItem("time");
           window.localStorage.setItem("levelTest", 1);
-          window.localStorage.removeItem("time")
+          navigate("/category-detail");
         }
       } else if (!testAns.correct) {
         let users = await fetch(
@@ -220,7 +220,7 @@ export default function ImgQuestion() {
         res = await res.json();
         if (res.status === 200) {
           navigate("/category-detail");
-          window.localStorage.setItem("time", users.data.attempts * 1 * 60);
+          window.localStorage.setItem("time", (users.data.attempts + 1) * 300);
           window.localStorage.setItem("levelTest", 1);
           window.localStorage.setItem("questionLevel", 1);
         }
@@ -264,9 +264,7 @@ export default function ImgQuestion() {
         <div className="col-4">
           {test && (
             <img
-              src={`https://it-test-backend.onrender.com/${
-                test && test.data[levelTest - 1].img
-              }`}
+              src={`${API}/${test && test.data[levelTest - 1].img}`}
               alt=""
               className="question-photo"
             />
@@ -345,24 +343,6 @@ export default function ImgQuestion() {
               </Button>
             </Modal.Footer>
           </Modal>
-
-          {/* <button className="btn btn-outline-primary btn-key" data-bs-toggle="modal" data-bs-target="#key"> Foydalanish<i className="fas fa-key key-icon"></i></button>
-          <button className="btn btn-primary" onClick={handleNext}>Keyingisi...</button>
-
-          <div className="modal fade modal-sm" id="key" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" ref={modalRef}>
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h1 className="modal-title fs-5 text-center" id="exampleModalLabel">Rostdan foydalanmoqchimisiz?</h1>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-footer text-center">
-                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Yo'q</button>
-                  <button onClick={hendlerKey} type="button" className="btn btn-primary">Ha</button>
-                </div>
-              </div>
-            </div>
-          </div> */}
         </div>
       </div>
     </div>

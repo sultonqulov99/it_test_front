@@ -4,34 +4,55 @@ import { AppLayoutContext } from "../../Layouts/AppLayout";
 import LoginModal from "./Login";
 import RegisterModal from "./Register";
 import Title from "./Title";
-import { FaMedal } from "react-icons/fa6";
+import avatar from "../user.png";
+import axios from "axios";
 
 const Header = () => {
+  const { API } = useContext(AppLayoutContext);
+  const subjectName = window.localStorage.getItem("subjectName");
   const [token, setToken] = useState(window.localStorage.getItem("token"));
   const navigate = useNavigate();
   const location = useLocation();
-  
+  const [level, setLevel] = useState(0)
+
   let data = window.localStorage.getItem("data");
   data = JSON.parse(data);
+  const u_id = data && data._id;
 
-  const { isLogined,ball,key,time } = useContext(AppLayoutContext)
+  const { isLogined, ball, key, time } = useContext(AppLayoutContext);
 
   useEffect(() => {
-    // Update token state when localStorage changes
-    const handleStorageChange = () => {
-      setToken(window.localStorage.getItem("token"));
-    };
-    window.addEventListener("storage", handleStorageChange);
+    async function fetchData() {
+      const subjectResponse = await axios.get(
+        `${API}/api/subject/${subjectName}`
+      );
+      console.log(subjectResponse)
+      const subjectId = subjectResponse.data.data ?  subjectResponse.data.data._id : " ";
 
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+      // Ikkinchi API chaqiruvi
+      const levelResponse = await axios.get(`${API}/api/levelOne`, {
+        params: { user_id: u_id, subject_id: subjectId },
+      });
+      const level = levelResponse.data.data[0]
+        ? levelResponse.data.data[0].level
+        : 1;
+      setLevel(level);
+      const handleStorageChange = () => {
+        setToken(window.localStorage.getItem("token"));
+      };
+      window.addEventListener("storage", handleStorageChange);
+
+      return () => {
+        window.removeEventListener("storage", handleStorageChange);
+      };
+    }
+    fetchData()
+  }, [time,isLogined, ball, key]);
 
   const handleLogout = () => {
     window.localStorage.removeItem("token");
     setToken(null);
-    navigate("/"); // Redirect to the home page after logout
+    navigate("/");
   };
 
   return (
@@ -84,20 +105,28 @@ const Header = () => {
               </ul>
               {isLogined ? (
                 <div className="nav-ava">
-                  {
-                    (time && location.pathname ==="/category-detail" && time != 60) ? <div className="block-time">
-                    <i className="fas fa-clock clock-icon"></i>
-                    <b className="bold">{time}</b>
-                  </div> : null
-                  }
-                  <p className="nav-key">
-                  <i class="fa-solid fa-medal text-primary" ></i>
-                    <span className="key-num">{ball}</span>
-                  </p>
-                  <p className="nav-key">
-                    <i className="fas fa-key key-icon"></i>
-                    <span className="key-num">{key}</span>
-                  </p>
+                  {level == 0 && time &&
+                  location.pathname === "/category-detail" &&
+                  time != 60 ? (
+                    <div className="block-time">
+                      <i className="fas fa-clock clock-icon"></i>
+                      <b className="bold">{time}</b>
+                    </div>
+                  ) : null}
+                  {location.pathname === "/testQuestion" ||
+                  location.pathname === "/imgQuestion" ||
+                  location.pathname === "/category-detail" ? (
+                    <>
+                      <p className="nav-key">
+                        <i class="fa-solid fa-medal text-primary"></i>
+                        <span className="key-num">{ball}</span>
+                      </p>
+                      <p className="nav-key">
+                        <i className="fas fa-key key-icon"></i>
+                        <span className="key-num">{key}</span>
+                      </p>
+                    </>
+                  ) : null}
                   <div className="dropdown">
                     <button
                       className="nav-ava__content"
@@ -106,7 +135,7 @@ const Header = () => {
                     >
                       <p className="user-name">{data.name}</p>
                       <img
-                        src="https://picsum.photos/40/40"
+                        src={avatar}
                         alt="User image"
                         className="user-image"
                       />
@@ -118,7 +147,10 @@ const Header = () => {
                         </Link>
                       </li>
                       <li>
-                        <button className="dropdown-item" onClick={handleLogout}>
+                        <button
+                          className="dropdown-item"
+                          onClick={handleLogout}
+                        >
                           Chiqish
                         </button>
                       </li>
@@ -147,7 +179,9 @@ const Header = () => {
           </div>
         </nav>
         <RegisterModal />
-        <LoginModal onSuccess={() => setToken(window.localStorage.getItem("token"))} />
+        <LoginModal
+          onSuccess={() => setToken(window.localStorage.getItem("token"))}
+        />
       </header>
       <Title />
     </>

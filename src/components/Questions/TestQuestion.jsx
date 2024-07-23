@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 export default function TestQuestion() {
-  const API = "http://localhost:8080";
+  const { API } = useContext(AppLayoutContext);
   let data = window.localStorage.getItem("data");
   data = JSON.parse(data);
   const u_id = data._id;
@@ -68,7 +68,6 @@ export default function TestQuestion() {
         const testResponse = await axios.get(`${API}/api/testLevel`, {
           params: { level, subject_id: subjectId },
         });
-        console.log(testResponse.data.data)
         setTest(testResponse.data.data);
         setTestVariant(testResponse.data.data[levelTest - 1].additive_answer);
         setQuestiontestId(testResponse.data.data[levelTest - 1]._id);
@@ -115,7 +114,7 @@ export default function TestQuestion() {
                         window.localStorage.setItem("questionLevel", 1);
                         window.localStorage.setItem(
                           "time",
-                          +res1.data.data.attempts * 1 * 100
+                          (+res1.data.data.attempts + 1) * 300
                         );
                       }
                     });
@@ -146,7 +145,6 @@ export default function TestQuestion() {
       .then((res) => {
         console.log(res)
         if (res.status === 201 && res.data.correct) {
-          // setAction(false);
           window.localStorage.setItem("time",60);
           navigate("/imgQuestion")
         } else {
@@ -173,7 +171,7 @@ export default function TestQuestion() {
                           window.localStorage.setItem("questionLevel", 1);
                           window.localStorage.setItem(
                             "time",
-                            +res1.data.data.attempts * 1 * 100
+                            (+res1.data.data.attempts + 1) * 300
                           );
                         }
                       });

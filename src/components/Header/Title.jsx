@@ -27,7 +27,7 @@ export default function Title() {
         }
        
         
-    }, [location.pathname]); // Only re-run the effect if location.pathname changes
+    }, [location.pathname]);
 
     return (
         <div className="site-hero">
